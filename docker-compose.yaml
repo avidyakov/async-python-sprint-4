@@ -1,0 +1,22 @@
+volumes:
+  postgres_data:
+
+services:
+  postgres:
+    image: postgres:latest
+    restart: unless-stopped
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      POSTGRES_DB: ${KEYCLOAK_JDBC_DB:-keycloak}
+      POSTGRES_USER: ${KEYCLOAK_JDBC_USER:-admin}
+      POSTGRES_PASSWORD: ${KEYCLOAK_JDBC_PASSWORD:-changeme}
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
