@@ -1,17 +1,26 @@
+from urllib.parse import urljoin
+
 from tortoise import fields
-from tortoise.models import Model
+
+from src.core.config import config
+from src.models.base import BaseModel
 
 
-class Link(Model):
-    id = fields.IntField(pk=True)
+class Link(BaseModel):
     origin = fields.CharField(max_length=255)
-    codename = fields.CharField(max_length=255)
-    create_date = fields.DatetimeField(autho_now=True)
-    clicks = fields.IntField(default=0)
+    created_at = fields.DatetimeField(auto_now=True)
+    updated_at = fields.DatetimeField(auto_now_add=True)
 
-    def __repr__(self):
-        return (
-            f'{self.__class__.__name__}'
-            f'({self.id}, {self.origin}, '
-            f'{self.codename}, {self.create_date})'
-        )
+    def short(self) -> str:
+        return urljoin(config.short_url_host, str(self.id))
+
+    class PydanticMeta:
+        computed = ('short',)
+
+
+class Click(BaseModel):
+    created_at = fields.DatetimeField(auto_now=True)
+    link = fields.ForeignKeyField('models.Link', related_name='clicks')
+
+    class PydanticMeta:
+        excluded = ('link',)

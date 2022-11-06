@@ -8,6 +8,7 @@ class Config(BaseSettings):
     database_dsn: PostgresDsn = (
         'postgres://admin:admin@localhost:5432/postgres'
     )
+    short_url_host: str = 'http://localhost:8000/v1/links/'
 
     class Config:
         env_file = '.env'
