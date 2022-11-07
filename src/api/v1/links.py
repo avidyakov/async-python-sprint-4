@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
 from fastapi_pagination import Page, paginate
 from starlette.responses import RedirectResponse
 
@@ -18,9 +18,9 @@ async def create_link(link_data: LinkInModel):
 
 
 @router.get('/{link_id}', response_class=RedirectResponse)
-async def redirect(link_id: int):
+async def redirect(link_id: int, request: Request):
     link = await Link.get(id=link_id)
-    await Click.create(link=link)
+    await Click.create(link=link, address=':'.join(map(str, request.client)))
     return link.origin
 
 
