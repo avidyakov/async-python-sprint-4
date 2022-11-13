@@ -3,9 +3,9 @@ from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
 from fastapi_pagination import add_pagination
 
-from src.api import router
-from src.core.config import config
-from src.db import register_db
+from api import router
+from core.config import config
+from db import register_db
 
 app = FastAPI(
     title=config.project_name,

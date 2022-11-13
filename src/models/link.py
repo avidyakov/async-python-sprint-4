@@ -2,8 +2,8 @@ from urllib.parse import urljoin
 
 from tortoise import fields
 
-from src.core.config import config
-from src.models.base import BaseModel
+from core.config import config
+from models.base import BaseModel
 
 
 class Link(BaseModel):

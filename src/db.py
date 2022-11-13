@@ -1,13 +1,13 @@
 from fastapi import FastAPI
 from tortoise.contrib.fastapi import register_tortoise
 
-from src.core.config import config
+from core.config import config
 
 TORTOISE_ORM = {
     'connections': {'default': config.database_dsn},
     'apps': {
         'models': {
-            'models': ['src.models.link'],
+            'models': ['models.link'],
             'default_connection': 'default',
         },
     },

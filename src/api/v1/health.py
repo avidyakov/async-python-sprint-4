@@ -2,7 +2,7 @@ from http import HTTPStatus
 
 from fastapi import APIRouter, Response
 
-from src.models.link import Link
+from models.link import Link
 
 router = APIRouter(
     prefix='/health',

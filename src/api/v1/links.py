@@ -4,8 +4,8 @@ from fastapi import APIRouter, Request
 from fastapi_pagination import Page, paginate
 from starlette.responses import RedirectResponse, Response
 
-from src.models.link import Click, Link
-from src.schemas.links import ClickModel, LinkInModel, LinkModel
+from models.link import Click, Link
+from schemas.links import ClickModel, LinkInModel, LinkModel
 
 router = APIRouter(
     prefix='/links',
