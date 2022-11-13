@@ -13,10 +13,13 @@ router = APIRouter(
 )
 
 
-@router.post('', response_model=LinkModel)
-async def create_link(link_data: LinkInModel):
-    link = await Link.create(**link_data.dict())
-    return await LinkModel.from_tortoise_orm(link)
+@router.post('', response_model=LinkModel | list[LinkModel])
+async def create_link(links_data: LinkInModel | list[LinkInModel]):
+    if isinstance(links_data, LinkInModel):
+        links_data = [links_data]
+
+    created = [await Link.create(**data.dict()) for data in links_data]
+    return [await LinkModel.from_tortoise_orm(link) for link in created]
 
 
 @router.get('/{link_id}', response_class=RedirectResponse)

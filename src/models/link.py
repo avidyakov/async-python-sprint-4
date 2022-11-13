@@ -15,6 +15,7 @@ class Link(BaseModel):
         return urljoin(config.short_url_host, str(self.id))
 
     class PydanticMeta:
+        excluded = ('is_deleted',)
         computed = ('short',)
 
 
