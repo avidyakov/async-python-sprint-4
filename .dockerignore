@@ -1,0 +1,5 @@
+.github
+.idea
+.git
+.gitignore
+.pre-commit-config.yaml

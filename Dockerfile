@@ -1,17 +1,15 @@
-FROM python:3.11
+FROM python:3.11.0
+
+EXPOSE 8000
 
 WORKDIR /app
 
-RUN pip install poetry
+RUN pip install poetry && poetry config virtualenvs.create false && pip install pydantic[dotenv]
 
 COPY ./pyproject.toml ./poetry.lock* /app/
 
-RUN poetry export -f requirements.txt --output requirements.txt --without-hashes
-
-RUN pip install --no-cache-dir --upgrade -r ./requirements.txt
+RUN poetry install --no-interaction --no-ansi --no-cache
 
 COPY . /app
-
-EXPOSE 8000
 
 CMD ["python", "src/main.py"]

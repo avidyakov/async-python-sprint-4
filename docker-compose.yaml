@@ -1,17 +1,17 @@
 services:
   postgres:
-    image: postgres:latest
+    image: postgres:15.1
     restart: unless-stopped
-    environment:
-      POSTGRES_DB: postgres
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin
+    env_file:
+      - .env.template
     ports:
-      - "5432:5432"
+      - 5432:5432
   api:
     restart: unless-stopped
     build:
         context: .
         dockerfile: Dockerfile
+    env_file:
+      - .env.template
     ports:
-      - "8000:8000"
+      - 8000:8000
