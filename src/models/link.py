@@ -1,21 +1,21 @@
 from urllib.parse import urljoin
 
-from tortoise import fields
+from tortoise import Model, fields
 
 from core.config import config
 from models.base import BaseModel
 
 
-class Link(BaseModel):
+class Link(Model):
+    uid = fields.UUIDField(pk=True)
     origin = fields.CharField(max_length=255)
     created_at = fields.DatetimeField(auto_now_add=True)
     is_deleted = fields.BooleanField(default=False)
 
     def short(self) -> str:
-        return urljoin(config.short_url_host, str(self.id))
+        return urljoin(config.short_url_host, str(self.uid))
 
     class PydanticMeta:
-        excluded = ('is_deleted',)
         computed = ('short',)
 
 
