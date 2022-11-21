@@ -3,6 +3,7 @@ from http import HTTPStatus
 from fastapi import APIRouter, Request
 from fastapi_pagination import Page, paginate
 from starlette.responses import RedirectResponse, Response
+from tortoise.transactions import in_transaction
 
 from models.link import Click, Link
 from schemas.links import ClickModel, LinkInModel, LinkModel
@@ -18,7 +19,9 @@ async def create_link(links_data: LinkInModel | list[LinkInModel]):
     if isinstance(links_data, LinkInModel):
         links_data = [links_data]
 
-    created = [await Link.create(**data.dict()) for data in links_data]
+    async with in_transaction():
+        created = [await Link.create(**data.dict()) for data in links_data]
+
     return [await LinkModel.from_tortoise_orm(link) for link in created]
 
 

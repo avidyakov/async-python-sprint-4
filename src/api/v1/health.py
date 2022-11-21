@@ -15,7 +15,7 @@ async def check_health():
     status = HTTPStatus.OK
 
     try:
-        await Link.all().count()
+        await Link.first()
     except OSError:
         status = HTTPStatus.SERVICE_UNAVAILABLE
 
